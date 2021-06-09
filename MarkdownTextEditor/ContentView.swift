@@ -11,25 +11,36 @@ struct ContentView: View {
     @State var markdownText = ""
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        HStack {
+            VStack {
+                Text("Markdown")
+                    .fontWeight(.bold)
+                
+                TextEditor(text: $markdownText)
+                    .frame(width: 400)
+                    .padding()
+                    .background(Color(uiColor: .secondarySystemBackground))
+                    .cornerRadius(16)
+                    .padding(.bottom, 16)
+            }
             
-            Text("Markdown")
-            TextEditor(text: $markdownText)
-                .frame(height: 400)
-                .border(Color.blue)
-            
-            Text("Output")
-            Text(getAttributedString(markdown: markdownText))
-                .frame(maxWidth: .infinity, minHeight: 100, alignment: .topLeading)
-                .border(Color.blue)
-            
-            Spacer()
+            VStack {
+                Text("Output")
+                    .fontWeight(.bold)
+                
+                Text(getAttributedString(markdownText))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .padding()
+                    .background(Color(uiColor: .secondarySystemBackground))
+                    .cornerRadius(16)
+                    .padding(.bottom, 16)
+            }
         }
         .font(.title2)
         .padding()
     }
     
-    func getAttributedString(markdown: String) -> AttributedString {
+    func getAttributedString(_ markdown: String) -> AttributedString {
         do {
             let attributedString = try AttributedString(markdown: markdown)
             return attributedString
@@ -39,6 +50,7 @@ struct ContentView: View {
         return AttributedString("Error parsing markdown")
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
